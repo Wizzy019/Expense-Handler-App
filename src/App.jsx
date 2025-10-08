@@ -30,13 +30,14 @@ function App() {
   }
 
   return (
-    <div className='App min-h-9/10 w-auto mx-auto p-4 bg-gray-300'>
-      <h1 className='heading text-5xl font-bold mb-2.5 mx-15 my-10'>
+    <div className="min-h-screen w-full flex flex-col items-center bg-gray-200 p-4">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-center">
         Expense Handler
       </h1>
-      <div className='ExpenseCard h-3/4 w-max p-5 mt-5 rounded-2xl bg-white'>
-  <ExpenseForm onAddExpense={addExpense} />
-  <ExpenseList expenses={expenses} onDelete={deleteExpense} />
+
+      <div className="w-full max-w-4xl bg-white rounded-2xl shadow p-5">
+        <ExpenseForm onAddExpense={addExpense} />
+        <ExpenseList expenses={expenses} onDelete={deleteExpense} />
       </div>
     </div>
   )

@@ -2,53 +2,48 @@ import React from 'react'
 
 function ExpenseList({ expenses = [], onDelete }) {
   return (
-  <div className='ExpenseList flex flex-col items-stretch p-5 mx-15 my-6'>
-      <h3 className='font-medium text-3xl'>Expenses</h3>
+    <div className="flex flex-col w-full mt-6 overflow-x-auto">
+      <h3 className="text-2xl font-semibold mb-4">Expenses</h3>
 
       {expenses.length === 0 ? (
-        <div className='text-sm text-gray-500'>No expenses yet 👀</div>
+        <p className="text-sm text-gray-500">No expenses yet 👀</p>
       ) : (
-        <div className='flex flex-1 items-stretch w-full py-5'>
-          <table className='w-full'>
-            <thead className='bg-gray-50'>
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse">
+            <thead className="bg-gray-100">
               <tr>
-                <th className='px-4 py-3 text-left text-sm text-bold text-gray-700'>Category</th>
-                <th className='px-4 py-3 text-left text-sm text-bold text-gray-700'>Note</th>
-                <th className='px-4 py-3 text-left text-sm text-bold text-gray-700'>Date</th>
-                <th className='px-4 py-3 text-right text-sm text-bold text-gray-700'>Amount</th>
+                <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Category</th>
+                <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Note</th>
+                <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Date</th>
+                <th className="px-4 py-2 text-right text-sm font-bold text-gray-700">Amount</th>
               </tr>
             </thead>
-            <tbody className='bg-white divide-y divide-gray-100'>
+            <tbody className="bg-white divide-y divide-gray-200">
               {expenses.map((exp, idx) => {
                 const key = exp.id ?? `${exp.date}-${exp.amount}-${idx}`
-                // Format date (assume yyyy-mm-dd or ISO)
-                let dateDisplay = exp.date || ''
-                try {
-                  const d = new Date(exp.date)
-                  if (!Number.isNaN(d.getTime())) dateDisplay = d.toLocaleDateString()
-                } catch {
-                  // leave as-is
-                }
-
-                const amountDisplay = typeof exp.amount === 'number' ? exp.amount.toFixed(2) : exp.amount
+                const d = new Date(exp.date)
+                const dateDisplay = !Number.isNaN(d.getTime())
+                  ? d.toLocaleDateString()
+                  : exp.date
+                const amountDisplay =
+                  typeof exp.amount === 'number' ? exp.amount.toFixed(2) : exp.amount
 
                 return (
-                  <tr key={key} className='hover:bg-gray-50'>
-                      <td className='px-4 py-3 text-sm text-gray-700'>{exp.category}</td>
-                      <td className='px-4 py-3 text-sm text-gray-700'>{exp.note}</td>
-                      <td className='px-4 py-3 text-sm text-gray-700'>{dateDisplay}</td>
-                      <td className='px-4 py-3 text-sm text-gray-700 text-right'>${amountDisplay}</td>
-                      <td className='px-4 py-3 text-sm text-gray-700 text-right'>
-                        <button
-                          type='button'
-                          onClick={() => typeof onDelete === 'function' && onDelete(exp.id)}
-                          className='text-red-600 hover:text-red-800 px-2 py-1 rounded'
-                          aria-label={`Delete expense ${exp.id}`}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
+                  <tr key={key} className="hover:bg-gray-50">
+                    <td className="px-4 py-2 text-sm">{exp.category}</td>
+                    <td className="px-4 py-2 text-sm">{exp.note}</td>
+                    <td className="px-4 py-2 text-sm">{dateDisplay}</td>
+                    <td className="px-4 py-2 text-sm text-right">${amountDisplay}</td>
+                    <td className="px-4 py-2 text-sm text-right">
+                      <button
+                        type="button"
+                        onClick={() => onDelete?.(exp.id)}
+                        className="text-red-600 hover:text-red-800 px-2 py-1 rounded"
+                      >
+                        🚮
+                      </button>
+                    </td>
+                  </tr>
                 )
               })}
             </tbody>
